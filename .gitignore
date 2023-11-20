@@ -21,3 +21,9 @@ crash.log
 # Exclude CLI configuration files
 .terraformrc
 terraform.rc
+
+# Exclude .lock files
+*.lock
+
+# Exclude .hcl files
+*.hcl
