@@ -15,10 +15,30 @@ resource "aws_subnet" "cloud_public_subnet" {
     }
 }
 
+resource "aws_subnet" "cloud_public_subnet2" {
+    vpc_id = aws_vpc.cloud_vpc.id
+    cidr_block = "10.0.3.0/24"
+    availability_zone = "us-east-1b"
+
+    tags = {
+        name = "cloud_subnet"
+    }
+}
+
 resource "aws_subnet" "cloud_private_subnet" {
     vpc_id = aws_vpc.cloud_vpc.id
     cidr_block = "10.0.2.0/24"
     availability_zone = "us-east-1a"
+
+    tags = {
+        name = "cloud_subnet"
+    }
+}
+
+resource "aws_subnet" "cloud_private_subnet2" {
+    vpc_id = aws_vpc.cloud_vpc.id
+    cidr_block = "10.0.4.0/24"
+    availability_zone = "us-east-1b"
 
     tags = {
         name = "cloud_subnet"
@@ -53,5 +73,10 @@ resource "aws_route_table" "cloud_public_rt" {
 
 resource "aws_route_table_association" "cloud_public_subnet_rt_association" {
     subnet_id = aws_subnet.cloud_public_subnet.id
+    route_table_id = aws_route_table.cloud_public_rt.id
+}
+
+resource "aws_route_table_association" "cloud_public_subnet_rt_association2" {
+    subnet_id = aws_subnet.cloud_public_subnet2.id
     route_table_id = aws_route_table.cloud_public_rt.id
 }
