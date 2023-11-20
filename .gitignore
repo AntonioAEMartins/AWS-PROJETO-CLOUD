@@ -27,3 +27,6 @@ terraform.rc
 
 # Exclude .hcl files
 *.hcl
+
+# Excluse .info files
+*.info
