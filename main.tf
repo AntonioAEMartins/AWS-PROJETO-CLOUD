@@ -19,6 +19,10 @@ module "vpc" {
 
 module "alb" {
     source = "./alb"
+    vpc_id = module.vpc.vpc_id
+    cloud_public_subnet_id = module.vpc.cloud_public_subnet_id
+    cloud_public_subnet2_id = module.vpc.cloud_public_subnet2_id
+    lb_sg_id = module.sg.lb_sg_id
 }
 
 module "sg" {
@@ -29,7 +33,6 @@ module "sg" {
 module "iam" {
     source = "./iam"
 }
-
 
 resource "aws_launch_template" "gym_template" {
     name = "backend_template"
@@ -56,7 +59,7 @@ resource "aws_autoscaling_group" "asg" {
     desired_capacity = 1
     max_size = 5
     min_size = 1
-    availability_zones = [ "us-east-1a", "us-east-1b"  ]
+    vpc_zone_identifier = [module.vpc.cloud_public_subnet_id, module.vpc.cloud_public_subnet2_id]
     health_check_grace_period = 300
     health_check_type = "EC2"
 
