@@ -1,3 +1,23 @@
+variable "vpc_id" {
+  description = "VPC ID"
+  type        = string
+}
+
+variable "cloud_public_subnet_id" {
+  description = "Public subnet ID"
+  type        = string
+}
+
+variable "cloud_public_subnet2_id" {
+  description = "Public subnet ID"
+  type        = string
+}
+
+variable "lb_sg_id" {
+  description = "Security group ID"
+  type        = string
+}
+
 variable "target_group_timeout" {
     description = "Timeout for the target group"
     type        = number

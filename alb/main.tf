@@ -1,12 +1,3 @@
-module "vpc" {
-  source = "../vpc"
-}
-
-module "sg" {
-  source = "../sg"
-  vpc_id = module.vpc.vpc_id
-}
-
 resource "aws_lb_target_group" "target_group" {
   health_check {
     interval           = 10
@@ -21,7 +12,7 @@ resource "aws_lb_target_group" "target_group" {
   port        = var.lb_listener_port
   protocol    = "HTTP"
   target_type = var.target_group_instance_type
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 }
 
 resource "aws_lb" "application_lb" {
@@ -29,8 +20,8 @@ resource "aws_lb" "application_lb" {
   internal           = false
   ip_address_type    = "ipv4"
   load_balancer_type = "application"
-  security_groups    = [module.sg.lb_sg_id]
-  subnets            = [module.vpc.cloud_public_subnet_id, module.vpc.cloud_public_subnet2_id]
+  security_groups    = [var.lb_sg_id]
+  subnets            = [var.cloud_public_subnet_id, var.cloud_public_subnet2_id]
 
   tags = var.lb_tags
 }
