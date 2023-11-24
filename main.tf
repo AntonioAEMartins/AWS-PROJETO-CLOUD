@@ -34,9 +34,37 @@ module "iam" {
     source = "./iam"
 }
 
+# #aws_lb_target_group_attachment to  aws_autoscaling_group
+# resource "aws_lb_target_group_attachment" "asg_attachment" {
+#   target_group_arn = module.alb.target_group_arn
+#   target_id        = aws_autoscaling_group.asg.id
+#   port             = 80
+# }
+
+# resource "aws_launch_template" "gym_template" {
+#     name = "backend_template"
+#     image_id = "ami-0d86d19bb909a6c95"
+#     instance_type = "t2.micro"
+#     key_name = "cloud_key"
+#     vpc_security_group_ids = [module.sg.ec2_sg_id]
+
+#     user_data = base64encode(var.user_data)
+
+#     tag_specifications {
+#         resource_type = "instance"
+#         tags = {
+#             Name = "cloud_instance"
+#         }
+#     }
+
+#     iam_instance_profile {
+#         name = module.iam.iam_profile_name
+#     }
+# }
+
 resource "aws_launch_template" "gym_template" {
     name = "backend_template"
-    image_id = "ami-0d86d19bb909a6c95"
+    image_id = "ami-0fc5d935ebf8bc3bc"
     instance_type = "t2.micro"
     key_name = "cloud_key"
     vpc_security_group_ids = [module.sg.ec2_sg_id]
