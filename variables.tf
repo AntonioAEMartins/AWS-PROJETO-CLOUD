@@ -5,13 +5,11 @@
 # }
 
 variable "user_data" {
-    description = "Initialization String for FastAPI"
-    type = string
-    default = <<-EOF
-        #!/bin/bash
-        sudo apt-get update
-        sudo apt-get install -y nginx
-        sudo systemctl enable nginx
-        sudo systemctl start nginx
-    EOF
+  description = "Initialization String for FastAPI"
+  type        = string
+  default     = <<-EOF
+    #!/bin/bash
+    sudo apt-get update
+    git clone https://github.com/AntonioAEMartins/simple_python_crud.git
+  EOF
 }
