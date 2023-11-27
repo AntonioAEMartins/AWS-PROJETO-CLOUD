@@ -2,11 +2,11 @@ terraform {
     required_providers {
         aws = {
             source = "hashicorp/aws"
-            version = "~>3.6.0"
+            version = "~> 4.0.0"
         }
     }
 
-    required_version = ">= 1.0.0"
+    required_version = ">= 1.6.0"
 }
 
 provider "aws" {
@@ -32,6 +32,14 @@ module "sg" {
 
 module "iam" {
     source = "./iam"
+}
+
+module "rds" {
+    source = "./rds"
+    vpc_id = module.vpc.vpc_id
+    cloud_private_subnet_subnet_id = module.vpc.cloud_private_subnet_subnet_id
+    cloud_private_subnet2_subnet_id = module.vpc.cloud_private_subnet2_subnet_id
+    rds_sg_id = module.sg.rds_sg_id
 }
 
 # #aws_lb_target_group_attachment to  aws_autoscaling_group
@@ -69,7 +77,12 @@ resource "aws_launch_template" "gym_template" {
     key_name = "cloud_key"
     vpc_security_group_ids = [module.sg.ec2_sg_id]
 
-    user_data = base64encode(var.user_data)
+    user_data = base64encode(templatefile("teste.tftpl",{
+        db_host = module.rds.db_host,
+        db_name = module.rds.db_name,
+        db_user = module.rds.db_username,
+        db_pass = module.rds.db_password
+    }))
 
     tag_specifications {
         resource_type = "instance"
@@ -84,9 +97,9 @@ resource "aws_launch_template" "gym_template" {
 }
 
 resource "aws_autoscaling_group" "asg" {
-    desired_capacity = 1
-    max_size = 5
-    min_size = 1
+    desired_capacity = 10
+    max_size = 20
+    min_size = 5
     vpc_zone_identifier = [module.vpc.cloud_public_subnet_id, module.vpc.cloud_public_subnet2_id]
     health_check_grace_period = 300
     health_check_type = "EC2"
