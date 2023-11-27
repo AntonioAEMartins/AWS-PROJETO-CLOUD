@@ -39,7 +39,7 @@ variable "iam_policy_policy" {
   "Statement": [
     {
       "Action": [
-        "ec2:*"
+        
       ],
       "Effect": "Allow",
       "Resource": "*"
