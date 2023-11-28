@@ -48,34 +48,6 @@ module "rds" {
     rds_sg_id = module.sg.rds_sg_id
 }
 
-# #aws_lb_target_group_attachment to  aws_autoscaling_group
-# resource "aws_lb_target_group_attachment" "asg_attachment" {
-#   target_group_arn = module.alb.target_group_arn
-#   target_id        = aws_autoscaling_group.asg.id
-#   port             = 80
-# }
-
-# resource "aws_launch_template" "gym_template" {
-#     name = "backend_template"
-#     image_id = "ami-0d86d19bb909a6c95"
-#     instance_type = "t2.micro"
-#     key_name = "cloud_key"
-#     vpc_security_group_ids = [module.sg.ec2_sg_id]
-
-#     user_data = base64encode(var.user_data)
-
-#     tag_specifications {
-#         resource_type = "instance"
-#         tags = {
-#             Name = "cloud_instance"
-#         }
-#     }
-
-#     iam_instance_profile {
-#         name = module.iam.iam_profile_name
-#     }
-# }
-
 resource "aws_launch_template" "gym_template" {
     name = "backend_template"
     image_id = "ami-0fc5d935ebf8bc3bc"
@@ -103,9 +75,9 @@ resource "aws_launch_template" "gym_template" {
 }
 
 resource "aws_autoscaling_group" "asg" {
-    desired_capacity = 10
-    max_size = 20
-    min_size = 5
+    desired_capacity = 2
+    max_size = 5
+    min_size = 1
     vpc_zone_identifier = [module.vpc.cloud_public_subnet_id, module.vpc.cloud_public_subnet2_id]
     health_check_grace_period = 300
     health_check_type = "EC2"
@@ -165,26 +137,3 @@ resource "aws_autoscaling_policy" "asg_policy_down" {
     adjustment_type = "ChangeInCapacity"
     cooldown = 300
 }
-
-
-# resource "aws_instance" "cloud_1_instance" {
-#     instance_type = "t2.micro"
-#     ami = "ami-06aa3f7caf3a30282"
-#     key_name = "cloud_key"
-
-#     subnet_id = module.vpc.cloud_public_subnet_id
-#     vpc_security_group_ids = [module.sg.ec2_sg_id]
-#     associate_public_ip_address = true
-
-#     user_data = <<-EOF
-#         #!/bin/bash
-#         sudo apt-get update
-#         sudo apt-get install -y nginx
-#         sudo systemctl enable nginx
-#         sudo systemctl start nginx
-#     EOF
-
-#     tags = {
-#         name = "cloud_1_instance"
-#     }
-# }
