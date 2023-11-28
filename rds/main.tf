@@ -25,10 +25,6 @@ resource "aws_db_instance" "rds_instance" {
 
     identifier = local.rds_credentials.dbname
 
-    # db_name = local.rds_credentials.dbname
-    # username = local.rds_credentials.username
-    # password = local.rds_credentials.password
-
     db_name = "rds"
     username = "antonio"
     password = "teste123"
@@ -46,8 +42,8 @@ resource "aws_db_instance" "rds_instance" {
 
     publicly_accessible = false
     skip_final_snapshot = true
-    # multi_az = true
-    multi_az = false
+    multi_az = true
+    # multi_az = false
 
     tags = {
         Name = "gym-rds-instance"
