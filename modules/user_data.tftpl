@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Updating and installing required packages...
+sudo apt-get update
+sudo apt-get install -y python3-pip python3-venv git authbind awscli
+
+git clone https://github.com/AntonioAEMartins/simple_python_crud.git /home/ubuntu/simple_python_crud
+sudo chown -R ubuntu:ubuntu ~/simple_python_crud
+cd /home/ubuntu/simple_python_crud
+
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+
+export DB_HOST=${db_host}
+export DB_USER=${db_user}
+export DB_PASSWORD=${db_pass}
+export DB_NAME=${db_name}
+export INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+
+aws logs create-log-stream --log-group-name "/my-fastapi-app/logs" --log-stream-name "$INSTANCE_ID" --region us-east-1
+
+# Setting up authbind for port 80...
+sudo touch /etc/authbind/byport/80
+sudo chmod 500 /etc/authbind/byport/80
+sudo chown ubuntu /etc/authbind/byport/80
+
+# Starting the application...
+authbind --deep uvicorn main:app --host 0.0.0.0 --port 80

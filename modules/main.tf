@@ -55,7 +55,7 @@ resource "aws_launch_template" "gym_template" {
     key_name = "cloud_key"
     vpc_security_group_ids = [module.sg.ec2_sg_id]
 
-    user_data = base64encode(templatefile("teste.tftpl",{
+    user_data = base64encode(templatefile("user_data.tftpl",{
         db_host = module.rds.db_host,
         db_name = module.rds.db_name,
         db_user = module.rds.db_username,
