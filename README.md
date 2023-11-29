@@ -4,7 +4,7 @@ O projeto tem como objetivo implementar uma arquitetura na AWS usando Terraform,
 
 ## Diagrama da Arquitetura
 
-![Diagrama-Arquitetura](./Diagrama-Arquitetura.png)
+![Diagrama-Arquitetura](./Diagrama-Arquitetura.jpg)
 
 ## Região Escolhida
 
