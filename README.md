@@ -45,6 +45,49 @@ Com base nesses quatro requisitos não funcionais, escolhemos a região `us-east
 
 Outra região que poderia ser usada de forma híbrida neste projeto é a [sa-east, São Paulo, Brasil](https://aws.amazon.com/pt-br/about-aws/global-infrastructure/regions_az/), que poderia hospedar o [load balancer](https://aws.amazon.com/pt-br/elasticloadbalancing/) e instâncias [ec2](https://aws.amazon.com/pt-br/ec2/). No entanto, isso aumentaria os custos do projeto, mas resultaria em uma menor latência de conexão.
 
+# Guia de Execução
+
+## Requisitos
+
+Para a execução deste projeto é necessário a instalação da AWS CLI.
+
+## Passo a Passo
+
+- **1° Exportar credenciais como variáveis de ambiente**
+
+```bash
+export AWS_ACCESS_KEY_ID=SUA-ACCESS-KEY
+export AWS_SECRET_ACCESS_KEY=SUA-SECRET-ACCESS-KEY
+export AWS_DEFAULT_REGION=SUA-DEFAULT-REGION
+```
+
+Documentação disponível em: [Amazon Web Services](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
+
+- **2° Criação de S3 Bucket**
+
+Deverá ser realizada a criação *manual* de um S3 Bucket que será utilizado para armazenar os logs do back end do Terraform. Este Bucket deverá ter este nome:  `cloud-2023-terraform-state`.
+
+- **3° Execução de Terraform**
+
+Para executar o código Terraform, basta realizar estes comandos na pasta /modules:
+
+```bash
+terraform init
+terraform apply
+```
+
+- **4° URL da Aplicação**
+
+Este projeto está utilizando Load Balancer para realizar o balanceamento de conexão. Para isso é necessário ter o DNS do mesmo para acessar a aplicação via Browser. Para obter o DNS do Load Balancer execute:
+
+```bash
+terraform state show module.alb.aws_lb.application_lb
+```
+
+- **5° Acesso ao FastAPI**
+
+Uma vez acessado através do `dns_name` do Load Balancer, será possível ver na root que a resposta é `{"status":"ok"}`. Para ter acesso ao sistema CRUD é necessário acessar a rota: `dns_name/docs`.
+
 # Documentação Técnica
 
 O código Terraform fornecido neste repositório representa uma implementação abrangente de infraestrutura na AWS, seguindo as melhores práticas para garantir segurança, escalabilidade e resiliência. Abaixo estão os detalhes dos principais elementos implementados e as decisões técnicas tomadas.
