@@ -92,7 +92,7 @@ Foi implementada uma [Virtual Private Cloud (VPC)](https://docs.aws.amazon.com/v
   - Configurado para armazenar dados em `gp2` com uma capacidade de `20 GB`.
   - Backup automático ativado com retenção de `7 dias`.
   - Janela de manutenção configurada para às segundas-feiras, entre `01:00` e `03:00 UTC`.
-  - Multi-AZ desativado para este exemplo, mas pode ser configurado conforme necessário.
+  - Multi-AZ ativado.
 
 ### Application Load Balancer (ALB)
 
@@ -107,7 +107,7 @@ Foi implementada uma [Virtual Private Cloud (VPC)](https://docs.aws.amazon.com/v
 ### Auto Scaling Group (ASG)
 
 - **Auto Scaling Group (`asg`):**
-  - Mantém entre `5` e `20` instâncias EC2, escalando com base em políticas definidas.
+  - Mantém entre `1` e `5` instâncias EC2, escalando com base em políticas definidas.
   - Utiliza um Launch Template que especifica a AMI, tipo de instância, chave SSH e outros detalhes de configuração.
 
 ### CloudWatch Alarms e Políticas de Escala
