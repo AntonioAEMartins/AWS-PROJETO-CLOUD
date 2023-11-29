@@ -2,6 +2,10 @@
 
 O projeto tem como objetivo implementar uma arquitetura na AWS usando Terraform, incluindo um Application Load Balancer (ALB), instâncias EC2 com Auto Scaling e um banco de dados RDS.
 
+## Diagrama da Arquitetura
+
+![Diagrama-Arquitetura](./Diagrama-Arquitetura.png)
+
 ## Região Escolhida
 
 A AWS oferece uma ampla variedade de regiões para seus serviços, abrangendo desde dimensionamento de EC2s na América do Sul, América do Norte até a Europa, até sistemas de armazenamento de dados. Cada interface pode ser hospedada em uma região específica.
