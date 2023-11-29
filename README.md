@@ -59,7 +59,9 @@ Foi implementada uma [Virtual Private Cloud (VPC)](https://docs.aws.amazon.com/v
   - **Subnet Pública 1 (`10.0.1.0/24`):** Associada à Zona de Disponibilidade `us-east-1a`.
   - **Subnet Pública 2 (`10.0.3.0/24`):** Associada à Zona de Disponibilidade `us-east-1b`.
   - **Subnet Privada 1 (`10.0.2.0/24`):** Associada à Zona de Disponibilidade `us-east-1a`.
-  - **Subnet Privada 2 (`10.0.4.0/24`):** Associada à Zona de Disponibilidade `us-east-1b`.
+  - **Subnet Privada 2 (`10.0.4.0/24`):** Associada à Zona de Disponibilidade
+
+ `us-east-1b`.
 
 ### Security Groups (Grupos de Segurança)
 
@@ -127,9 +129,7 @@ Foi implementada uma [Virtual Private Cloud (VPC)](https://docs.aws.amazon.com/v
 ## Considerações sobre Portas e Conexões
 
 - **EC2 Instances:**
-  - As instâncias EC2 permitem tráfego nas port
-
-as `80` (HTTP) e `22` (SSH) do mundo.
+  - As instâncias EC2 permitem tráfego nas portas `80` (HTTP) e `22` (SSH) do mundo.
 
 - **ALB:**
   - O Application Load Balancer permite tráfego nas portas `80` (HTTP) e `443` (HTTPS) do mundo.
@@ -170,7 +170,7 @@ Neste caso, o Amazon RDS for MySQL está sendo usado para armazenar os dados da 
 
 ### Elastic Load Balancing
 
-O Elastic Load Balancing distribui o tráfego de entrada entre várias instâncias do EC2. Isso ajuda a garantir que sua aplicação web possa lidar com um aumento no tráfego.
+O Elastic Load Balancing distribui o tráfego de entrada entre várias instâncias do EC2, ajudando a garantir que sua aplicação web possa lidar com um aumento no tráfego.
 
 Neste caso, o Elastic Load Balancing está sendo usado para distribuir o tráfego de entrada para as instâncias do EC2 que estão hospedando a aplicação web.
 
@@ -212,4 +212,4 @@ Neste caso, a VPC está sendo usada para separar a aplicação web da rede públ
 - Custo de transferência de dados: 0,11
 - Número de endereços IP ativos: 5
 
-**Custo Total:** `USD 63,04/mês`. A análise detalhada está disponível neste [link](https://github.com/AntonioAEMartins/aws-terraform/blob/main/Estimativa-Precos.pdf)
+**Custo Total:** `USD 63,04/mês`. A análise detalhada está disponível [neste link](https://github.com/AntonioAEMartins/aws-terraform/blob/main/Estimativa-Precos.pdf)
