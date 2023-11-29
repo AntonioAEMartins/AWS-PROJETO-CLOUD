@@ -6,6 +6,8 @@ O projeto tem como objetivo implementar uma arquitetura na AWS usando Terraform,
 
 ![Diagrama-Arquitetura](./diagrama-arquitetura.jpg)
 
+Neste diagrama foi utilizada a cor `preta` para representar a camada de servidores e serviços da AWS, `Azul` para representar a Virtual Private Network, `Verde` para representar a dupla de subnets públicas, `Vermelho` para representar a dupla de subnets privadas e `Roxo` para representar instâncias e serviços utilizados da AWS como Load Balancer, AutoScaling Groups (EC2s), RDS e Internet Gateaway.
+
 ## Região Escolhida
 
 A AWS oferece uma ampla variedade de regiões para seus serviços, abrangendo desde dimensionamento de EC2s na América do Sul, América do Norte até a Europa, até sistemas de armazenamento de dados. Cada interface pode ser hospedada em uma região específica.
