@@ -23,19 +23,19 @@ A velocidade de conexão é um requisito não funcional muitas vezes subestimado
 
 A velocidade de processamento é um requisito crucial, dependendo do projeto implementado. Para um projeto simples como este, em que as instâncias EC2 são usadas para hospedar e processar uma aplicação CRUD simples em FastAPI, a velocidade de processamento individual não é essencial. É mais importante ter a capacidade de escalar a plataforma de acordo com a demanda.
 
-Considerando esse contexto, escolhemos uma região com alta disponibilidade de opções de processamento, dando destaque à instância `t2.micro`, que permite, até certo nível de demanda, a instância gratuita da aplicação.
+Considerando esse contexto, escolhemos uma região com alta disponibilidade de opções de processamento, dando destaque à instância [t2.micro](https://aws.amazon.com/ec2/instance-types/t2/), que permite, até certo nível de demanda, a instância gratuita da aplicação.
 
 ### Disponibilidade de Serviços
 
-Além da baixa exigência de processamento individual, é crucial considerar as zonas de disponibilidade de cada plataforma. A região `us-east`, localizada na `Virginia do Norte, Estados Unidos`, é a região com maior disponibilidade de tipos de instâncias, como evidenciado pelo portal DZone (https://dzone.com/articles/aws-outages-is-north-virginia-the-least-reliable-a), analisando a quantidade de serviços disponíveis nesta região, que pode chegar a mais de 215.
+Além da baixa exigência de processamento individual, é crucial considerar as zonas de disponibilidade de cada plataforma. A região `us-east`, localizada na [Virginia do Norte, Estados Unidos](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/), é a região com maior disponibilidade de tipos de instâncias, como evidenciado pelo portal [DZone](https://dzone.com/articles/aws-outages-is-north-virginia-the-least-reliable-a), analisando a quantidade de serviços disponíveis nesta região, que pode chegar a mais de 215.
 
-Ao contrário de regiões como `Europa (Espanha)`, que não têm disponibilidade de instâncias gratuitas como a `t2.micro`, a `us-east` possui a maior disponibilidade de máquinas. No entanto, como consequência desse aumento de disponibilidade, há um aumento no tráfego e uso dos data centers, tornando-os mais lentos e com maior possibilidade de *outages*, de acordo com a DZone em 2022, que registrou 22 *outages*, um número significativamente maior do que em outras regiões.
+Ao contrário de regiões como [Europa (Espanha)](https://aws.amazon.com/es/about-aws/global-infrastructure/regions_az/), que não têm disponibilidade de instâncias gratuitas como a [t2.micro](https://aws.amazon.com/ec2/instance-types/t2/), a `us-east` possui a maior disponibilidade de máquinas. No entanto, como consequência desse aumento de disponibilidade, há um aumento no tráfego e uso dos data centers, tornando-os mais lentos e com maior possibilidade de *outages*, de acordo com a DZone em 2022, que registrou 22 *outages*, um número significativamente maior do que em outras regiões.
 
 ### Custo de Implementação
 
-Juntamente com o maior número de serviços, esta região apresenta o menor custo, conforme a Concurrency Labs (https://www.concurrencylabs.com/blog/choose-your-aws-region-wisely/), estando empatada com `Ohio` e `Oregon`. A região com maior custo é `São Paulo, Brasil`.
+Juntamente com o maior número de serviços, esta região apresenta o menor custo, conforme a [Concurrency Labs](https://www.concurrencylabs.com/blog/choose-your-aws-region-wisely/), estando empatada com [Ohio](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/) e [Oregon](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/). A região com maior custo é [São Paulo, Brasil](https://aws.amazon.com/pt-br/about-aws/global-infrastructure/regions_az/).
 
-Vários fatores podem causar essa variação de custos, como tráfego nos data centers, uso pelo usuário e investimentos da AWS, que mantém a estrutura cada vez mais eficiente, de acordo com o Data Center Frontier (https://www.datacenterfrontier.com/cloud/article/11427911/aws-has-spent-35-billion-on-its-northern-virginia-data-centers).
+Vários fatores podem causar essa variação de custos, como tráfego nos data centers, uso pelo usuário e investimentos da AWS, que mantém a estrutura cada vez mais eficiente, de acordo com o [Data Center Frontier](https://www.datacenterfrontier.com/cloud/article/11427911/aws-has-spent-35-billion-on-its-northern-virginia-data-centers).
 
 ### Escolha
 
@@ -43,7 +43,7 @@ Com base nesses quatro requisitos não funcionais, escolhemos a região `us-east
 
 ### Outras Possíveis Regiões
 
-Outra região que poderia ser usada de forma híbrida neste projeto é a `sa-east, São Paulo, Brasil`, que poderia hospedar o `load balancer` e instâncias `ec2`. No entanto, isso aumentaria os custos do projeto, mas resultaria em uma menor latência de conexão.
+Outra região que poderia ser usada de forma híbrida neste projeto é a [sa-east, São Paulo, Brasil](https://aws.amazon.com/pt-br/about-aws/global-infrastructure/regions_az/), que poderia hospedar o [load balancer](https://aws.amazon.com/pt-br/elasticloadbalancing/) e instâncias [ec2](https://aws.amazon.com/pt-br/ec2/). No entanto, isso aumentaria os custos do projeto, mas resultaria em uma menor latência de conexão.
 
 # Documentação Técnica
 
