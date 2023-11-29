@@ -139,77 +139,77 @@ as `80` (HTTP) e `22` (SSH) do mundo.
 
 Esta infraestrutura foi projetada para ser altamente disponível, escalável e segura, atendendo aos requisitos específicos do projeto. Certifique-se de revisar as configurações e personalizá-las conforme necessário antes de implantar em um ambiente de produção.
 
-# Analise de Custos
-Descrição dos serviços contratados na AWS
+# Análise de Custos
 
-Amazon EC2
+## Descrição dos Serviços Contratados na AWS
+
+### Amazon EC2
 
 O Amazon EC2 fornece capacidade de computação flexível e escalável na nuvem. As instâncias do EC2 são servidores virtuais que podem ser personalizados para atender às suas necessidades específicas.
 
 Neste caso, o Amazon EC2 está sendo usado para hospedar uma aplicação web. A configuração atual é de uma instância t2.micro, que é uma instância compartilhada de baixo custo. A instância está sendo dimensionada automaticamente para atender à demanda, com uma linha de base de 1 instância e um pico de 5 instâncias.
 
-Parâmetros:
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Instância: t2.micro
+- Dimensionamento automático: Sim
+- Linha de base: 1 instância
+- Pico: 5 instâncias
 
-Região: US East (N. Virginia)
-Instância: t2.micro
-Dimensionamento automático: Sim
-Linha de base: 1 instância
-Pico: 5 instâncias
-Amazon RDS for MySQL
+### Amazon RDS for MySQL
 
 O Amazon RDS for MySQL é um serviço de banco de dados relacional na nuvem. Ele oferece uma variedade de opções de configuração para atender às suas necessidades específicas.
 
 Neste caso, o Amazon RDS for MySQL está sendo usado para armazenar os dados da aplicação web. A configuração atual é de uma instância db.t2.micro, que é uma instância de baixo custo. A instância está usando um armazenamento de 20 GB e está configurada para replicação multi-AZ.
 
-Parâmetros:
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Instância: db.t2.micro
+- Armazenamento: 20 GB
+- Replicação: Multi-AZ
 
-Região: US East (N. Virginia)
-Instância: db.t2.micro
-Armazenamento: 20 GB
-Replicação: Multi-AZ
-Elastic Load Balancing
+### Elastic Load Balancing
 
 O Elastic Load Balancing distribui o tráfego de entrada entre várias instâncias do EC2. Isso ajuda a garantir que sua aplicação web possa lidar com um aumento no tráfego.
 
 Neste caso, o Elastic Load Balancing está sendo usado para distribuir o tráfego de entrada para as instâncias do EC2 que estão hospedando a aplicação web.
 
-Parâmetros:
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Número de Load Balancers: 1
 
-Região: US East (N. Virginia)
-Número de Load Balancers: 1
-Amazon Simple Storage Service (S3)
+### Amazon Simple Storage Service (S3)
 
 O Amazon S3 é um serviço de armazenamento de objetos na nuvem. Ele é usado para armazenar dados de forma durável e escalável.
 
 Neste caso, o Amazon S3 está sendo usado para armazenar arquivos estáticos, como imagens e CSS. A configuração atual é de 1 GB de armazenamento.
 
-Parâmetros:
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Armazenamento: 1 GB
 
-Região: US East (N. Virginia)
-Armazenamento: 1 GB
-Amazon API Gateway
+### Amazon API Gateway
 
 O Amazon API Gateway é um serviço de API gerenciado que permite criar, publicar e gerenciar APIs.
 
 Neste caso, o Amazon API Gateway está sendo usado para expor uma API REST para a aplicação web. A configuração atual é de 100 solicitações por mês.
 
-Parâmetros:
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Unidades de solicitação da API REST: 100
 
-Região: US East (N. Virginia)
-Unidades de solicitação da API REST: 100
-Amazon Virtual Private Cloud (VPC)
+### Amazon Virtual Private Cloud (VPC)
 
 Uma VPC é uma rede virtual privada na nuvem. Ela permite que você crie uma rede isolada para suas instâncias do EC2.
 
 Neste caso, a VPC está sendo usada para separar a aplicação web da rede pública. A configuração atual é de 5 endereços IP ativos.
 
-Parâmetros:
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Tráfego de entrada: Todas as outras regiões
+- Tráfego de saída: Internet
+- Tráfego intrarregional: (1 GB por mês)
+- Custo de transferência de dados: 0,11
+- Número de endereços IP ativos: 5
 
-Região: US East (N. Virginia)
-Tráfego de entrada: Todas as outras regiões
-Tráfego de saída: Internet
-Tráfego intrarregional: (1 GB por mês)
-Custo de transferência de dados: 0,11
-Número de endereços IP ativos: 5
-
-O **Custo Total** foi de `USD 63,04/mês`. A analise detalhada está disponível neste [link](https://github.com/AntonioAEMartins/aws-terraform/blob/main/Estimativa-Precos.pdf)
+**Custo Total:** `USD 63,04/mês`. A análise detalhada está disponível neste [link](https://github.com/AntonioAEMartins/aws-terraform/blob/main/Estimativa-Precos.pdf)
