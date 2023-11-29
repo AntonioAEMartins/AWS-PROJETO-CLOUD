@@ -1,3 +1,50 @@
+# Escopo do Projeto
+
+O projeto tem como objetivo implementar uma arquitetura na AWS usando Terraform, incluindo um Application Load Balancer (ALB), instâncias EC2 com Auto Scaling e um banco de dados RDS.
+
+## Região Escolhida
+
+A AWS oferece uma ampla variedade de regiões para seus serviços, abrangendo desde dimensionamento de EC2s na América do Sul, América do Norte até a Europa, até sistemas de armazenamento de dados. Cada interface pode ser hospedada em uma região específica.
+
+A escolha da região é guiada por requisitos não funcionais do projeto, tais como:
+
+- **Velocidade de Conexão**
+- **Velocidade de Processamento**
+- **Disponibilidade de Serviços**
+- **Custo de Implementação**
+
+Nesta etapa, explicaremos por que escolhemos a zona `us-east` e outras opções para cada serviço implementado neste projeto.
+
+### Velocidade de Conexão
+
+A velocidade de conexão é um requisito não funcional muitas vezes subestimado, mas deve ser decidido com base nas necessidades técnicas do projeto. Para este projeto, onde a aplicação não será usada por clientes finais, a escolha de um servidor com maior latência e menor custo é possível. Em projetos em que a interação do cliente é rápida, como um site de e-commerce, é crucial que o tempo de latência e o tráfego de dados sejam mínimos, exigindo a localização dos servidores próximos ao local de maior demanda.
+
+### Velocidade de Processamento
+
+A velocidade de processamento é um requisito crucial, dependendo do projeto implementado. Para um projeto simples como este, em que as instâncias EC2 são usadas para hospedar e processar uma aplicação CRUD simples em FastAPI, a velocidade de processamento individual não é essencial. É mais importante ter a capacidade de escalar a plataforma de acordo com a demanda.
+
+Considerando esse contexto, escolhemos uma região com alta disponibilidade de opções de processamento, dando destaque à instância [t2.micro](https://aws.amazon.com/ec2/instance-types/t2/), que permite, até certo nível de demanda, a instância gratuita da aplicação.
+
+### Disponibilidade de Serviços
+
+Além da baixa exigência de processamento individual, é crucial considerar as zonas de disponibilidade de cada plataforma. A região `us-east`, localizada na [Virginia do Norte, Estados Unidos](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/), é a região com maior disponibilidade de tipos de instâncias, como evidenciado pelo portal [DZone](https://dzone.com/articles/aws-outages-is-north-virginia-the-least-reliable-a), analisando a quantidade de serviços disponíveis nesta região, que pode chegar a mais de 215.
+
+Ao contrário de regiões como [Europa (Espanha)](https://aws.amazon.com/es/about-aws/global-infrastructure/regions_az/), que não têm disponibilidade de instâncias gratuitas como a [t2.micro](https://aws.amazon.com/ec2/instance-types/t2/), a `us-east` possui a maior disponibilidade de máquinas. No entanto, como consequência desse aumento de disponibilidade, há um aumento no tráfego e uso dos data centers, tornando-os mais lentos e com maior possibilidade de *outages*, de acordo com a DZone em 2022, que registrou 22 *outages*, um número significativamente maior do que em outras regiões.
+
+### Custo de Implementação
+
+Juntamente com o maior número de serviços, esta região apresenta o menor custo, conforme a [Concurrency Labs](https://www.concurrencylabs.com/blog/choose-your-aws-region-wisely/), estando empatada com [Ohio](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/) e [Oregon](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/). A região com maior custo é [São Paulo, Brasil](https://aws.amazon.com/pt-br/about-aws/global-infrastructure/regions_az/).
+
+Vários fatores podem causar essa variação de custos, como tráfego nos data centers, uso pelo usuário e investimentos da AWS, que mantém a estrutura cada vez mais eficiente, de acordo com o [Data Center Frontier](https://www.datacenterfrontier.com/cloud/article/11427911/aws-has-spent-35-billion-on-its-northern-virginia-data-centers).
+
+### Escolha
+
+Com base nesses quatro requisitos não funcionais, escolhemos a região `us-east` porque o projeto não exige velocidade de conexão ou processamento rápido. A região também oferece alta disponibilidade de serviços a um custo de implementação mais baixo.
+
+### Outras Possíveis Regiões
+
+Outra região que poderia ser usada de forma híbrida neste projeto é a [sa-east, São Paulo, Brasil](https://aws.amazon.com/pt-br/about-aws/global-infrastructure/regions_az/), que poderia hospedar o [load balancer](https://aws.amazon.com/pt-br/elasticloadbalancing/) e instâncias [ec2](https://aws.amazon.com/pt-br/ec2/). No entanto, isso aumentaria os custos do projeto, mas resultaria em uma menor latência de conexão.
+
 # Documentação Técnica
 
 O código Terraform fornecido neste repositório representa uma implementação abrangente de infraestrutura na AWS, seguindo as melhores práticas para garantir segurança, escalabilidade e resiliência. Abaixo estão os detalhes dos principais elementos implementados e as decisões técnicas tomadas.
