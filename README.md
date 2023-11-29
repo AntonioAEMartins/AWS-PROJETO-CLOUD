@@ -45,6 +45,49 @@ Com base nesses quatro requisitos não funcionais, escolhemos a região `us-east
 
 Outra região que poderia ser usada de forma híbrida neste projeto é a [sa-east, São Paulo, Brasil](https://aws.amazon.com/pt-br/about-aws/global-infrastructure/regions_az/), que poderia hospedar o [load balancer](https://aws.amazon.com/pt-br/elasticloadbalancing/) e instâncias [ec2](https://aws.amazon.com/pt-br/ec2/). No entanto, isso aumentaria os custos do projeto, mas resultaria em uma menor latência de conexão.
 
+# Guia de Execução
+
+## Requisitos
+
+Para a execução deste projeto é necessário a instalação da AWS CLI.
+
+## Passo a Passo
+
+- **1° Exportar credenciais como variáveis de ambiente**
+
+```bash
+export AWS_ACCESS_KEY_ID=SUA-ACCESS-KEY
+export AWS_SECRET_ACCESS_KEY=SUA-SECRET-ACCESS-KEY
+export AWS_DEFAULT_REGION=SUA-DEFAULT-REGION
+```
+
+Documentação disponível em: [Amazon Web Services](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
+
+- **2° Criação de S3 Bucket**
+
+Deverá ser realizada a criação *manual* de um S3 Bucket que será utilizado para armazenar os logs do back end do Terraform. Este Bucket deverá ter este nome:  `cloud-2023-terraform-state`.
+
+- **3° Execução de Terraform**
+
+Para executar o código Terraform, basta realizar estes comandos na pasta /modules:
+
+```bash
+terraform init
+terraform apply
+```
+
+- **4° URL da Aplicação**
+
+Este projeto está utilizando Load Balancer para realizar o balanceamento de conexão. Para isso é necessário ter o DNS do mesmo para acessar a aplicação via Browser. Para obter o DNS do Load Balancer execute:
+
+```bash
+terraform state show module.alb.aws_lb.application_lb
+```
+
+- **5° Acesso ao FastAPI**
+
+Uma vez acessado através do `dns_name` do Load Balancer, será possível ver na root que a resposta é `{"status":"ok"}`. Para ter acesso ao sistema CRUD é necessário acessar a rota: `dns_name/docs`.
+
 # Documentação Técnica
 
 O código Terraform fornecido neste repositório representa uma implementação abrangente de infraestrutura na AWS, seguindo as melhores práticas para garantir segurança, escalabilidade e resiliência. Abaixo estão os detalhes dos principais elementos implementados e as decisões técnicas tomadas.
@@ -59,7 +102,9 @@ Foi implementada uma [Virtual Private Cloud (VPC)](https://docs.aws.amazon.com/v
   - **Subnet Pública 1 (`10.0.1.0/24`):** Associada à Zona de Disponibilidade `us-east-1a`.
   - **Subnet Pública 2 (`10.0.3.0/24`):** Associada à Zona de Disponibilidade `us-east-1b`.
   - **Subnet Privada 1 (`10.0.2.0/24`):** Associada à Zona de Disponibilidade `us-east-1a`.
-  - **Subnet Privada 2 (`10.0.4.0/24`):** Associada à Zona de Disponibilidade `us-east-1b`.
+  - **Subnet Privada 2 (`10.0.4.0/24`):** Associada à Zona de Disponibilidade
+
+ `us-east-1b`.
 
 ### Security Groups (Grupos de Segurança)
 
@@ -90,7 +135,7 @@ Foi implementada uma [Virtual Private Cloud (VPC)](https://docs.aws.amazon.com/v
   - Configurado para armazenar dados em `gp2` com uma capacidade de `20 GB`.
   - Backup automático ativado com retenção de `7 dias`.
   - Janela de manutenção configurada para às segundas-feiras, entre `01:00` e `03:00 UTC`.
-  - Multi-AZ desativado para este exemplo, mas pode ser configurado conforme necessário.
+  - Multi-AZ ativado.
 
 ### Application Load Balancer (ALB)
 
@@ -105,7 +150,7 @@ Foi implementada uma [Virtual Private Cloud (VPC)](https://docs.aws.amazon.com/v
 ### Auto Scaling Group (ASG)
 
 - **Auto Scaling Group (`asg`):**
-  - Mantém entre `5` e `20` instâncias EC2, escalando com base em políticas definidas.
+  - Mantém entre `1` e `5` instâncias EC2, escalando com base em políticas definidas.
   - Utiliza um Launch Template que especifica a AMI, tipo de instância, chave SSH e outros detalhes de configuração.
 
 ### CloudWatch Alarms e Políticas de Escala
@@ -127,9 +172,7 @@ Foi implementada uma [Virtual Private Cloud (VPC)](https://docs.aws.amazon.com/v
 ## Considerações sobre Portas e Conexões
 
 - **EC2 Instances:**
-  - As instâncias EC2 permitem tráfego nas port
-
-as `80` (HTTP) e `22` (SSH) do mundo.
+  - As instâncias EC2 permitem tráfego nas portas `80` (HTTP) e `22` (SSH) do mundo.
 
 - **ALB:**
   - O Application Load Balancer permite tráfego nas portas `80` (HTTP) e `443` (HTTPS) do mundo.
@@ -138,3 +181,78 @@ as `80` (HTTP) e `22` (SSH) do mundo.
   - A instância RDS aceita tráfego na porta `3306` apenas das instâncias EC2 associadas ao Security Group correspondente.
 
 Esta infraestrutura foi projetada para ser altamente disponível, escalável e segura, atendendo aos requisitos específicos do projeto. Certifique-se de revisar as configurações e personalizá-las conforme necessário antes de implantar em um ambiente de produção.
+
+# Análise de Custos
+
+## Descrição dos Serviços Contratados na AWS
+
+### Amazon EC2
+
+O Amazon EC2 fornece capacidade de computação flexível e escalável na nuvem. As instâncias do EC2 são servidores virtuais que podem ser personalizados para atender às suas necessidades específicas.
+
+Neste caso, o Amazon EC2 está sendo usado para hospedar uma aplicação web. A configuração atual é de uma instância t2.micro, que é uma instância compartilhada de baixo custo. A instância está sendo dimensionada automaticamente para atender à demanda, com uma linha de base de 1 instância e um pico de 5 instâncias.
+
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Instância: t2.micro
+- Dimensionamento automático: Sim
+- Linha de base: 1 instância
+- Pico: 5 instâncias
+
+### Amazon RDS for MySQL
+
+O Amazon RDS for MySQL é um serviço de banco de dados relacional na nuvem. Ele oferece uma variedade de opções de configuração para atender às suas necessidades específicas.
+
+Neste caso, o Amazon RDS for MySQL está sendo usado para armazenar os dados da aplicação web. A configuração atual é de uma instância db.t2.micro, que é uma instância de baixo custo. A instância está usando um armazenamento de 20 GB e está configurada para replicação multi-AZ.
+
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Instância: db.t2.micro
+- Armazenamento: 20 GB
+- Replicação: Multi-AZ
+
+### Elastic Load Balancing
+
+O Elastic Load Balancing distribui o tráfego de entrada entre várias instâncias do EC2, ajudando a garantir que sua aplicação web possa lidar com um aumento no tráfego.
+
+Neste caso, o Elastic Load Balancing está sendo usado para distribuir o tráfego de entrada para as instâncias do EC2 que estão hospedando a aplicação web.
+
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Número de Load Balancers: 1
+
+### Amazon Simple Storage Service (S3)
+
+O Amazon S3 é um serviço de armazenamento de objetos na nuvem. Ele é usado para armazenar dados de forma durável e escalável.
+
+Neste caso, o Amazon S3 está sendo usado para armazenar arquivos estáticos, como imagens e CSS. A configuração atual é de 1 GB de armazenamento.
+
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Armazenamento: 1 GB
+
+### Amazon API Gateway
+
+O Amazon API Gateway é um serviço de API gerenciado que permite criar, publicar e gerenciar APIs.
+
+Neste caso, o Amazon API Gateway está sendo usado para expor uma API REST para a aplicação web. A configuração atual é de 100 solicitações por mês.
+
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Unidades de solicitação da API REST: 100
+
+### Amazon Virtual Private Cloud (VPC)
+
+Uma VPC é uma rede virtual privada na nuvem. Ela permite que você crie uma rede isolada para suas instâncias do EC2.
+
+Neste caso, a VPC está sendo usada para separar a aplicação web da rede pública. A configuração atual é de 5 endereços IP ativos.
+
+**Parâmetros:**
+- Região: US East (N. Virginia)
+- Tráfego de entrada: Todas as outras regiões
+- Tráfego de saída: Internet
+- Tráfego intrarregional: (1 GB por mês)
+- Custo de transferência de dados: 0,11
+- Número de endereços IP ativos: 5
+
+**Custo Total:** `USD 63,04/mês`. A análise detalhada está disponível [neste link](https://github.com/AntonioAEMartins/aws-terraform/blob/main/Estimativa-Precos.pdf)
