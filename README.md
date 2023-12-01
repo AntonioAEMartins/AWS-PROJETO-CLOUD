@@ -281,7 +281,9 @@ Neste caso, a VPC está sendo usada para separar a aplicação web da rede públ
 
 Como forma de validar a estimativa realidade utilizando a calculadora da AWS, foi instalado um teste de carga e configurado para ter 500 usuário ativos enviando requisições entre 1 a 5 segundos - escolhido randomicamente. Está taxa de requisição, faz com que o grupo de autoscaling seja bombardeado de requisições a uma taxa de aproximadamente 250 RPS.
 
-[locust-dashboard](locust-dashboard.png)
+
+![locust-dashboard](./locust-dashboard.png)
+
 
 A partir do Dashboard da AWS, foi possível perceber que este teste de carga teve custo de $XXX estando ativo apenas 5 horas resultando em um custo estimado de $/mês.
 
