@@ -1,7 +1,7 @@
 resource "aws_instance" "cloud_ec2_locust" {
     ami = "ami-0fc5d935ebf8bc3bc"
     instance_type = "t2.micro"
-    vpc_security_group_ids = var.vpc_security_group_ids
+    vpc_security_group_ids = [var.locust_sg_id]
     subnet_id = var.subnet_id
     
     associate_public_ip_address = true

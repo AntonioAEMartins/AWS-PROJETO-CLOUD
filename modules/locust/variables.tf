@@ -3,12 +3,17 @@ variable "dns_name" {
     type        = string
 }
 
-variable "vpc_security_group_ids" {
-    description = "The security group ID(s) of the EC2 instance"
-    type        = list(string)
-}
+# variable "vpc_security_group_ids" {
+#     description = "The security group ID(s) of the EC2 instance"
+#     type        = list(string)
+# }
 
 variable "subnet_id" {
     description = "The subnet ID of the EC2 instance"
+    type        = string
+}
+
+variable "locust_sg_id"{
+    description = "The security group ID(s) of the EC2 instance"
     type        = string
 }
