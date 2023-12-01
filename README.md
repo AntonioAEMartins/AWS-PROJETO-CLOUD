@@ -94,6 +94,20 @@ terraform state show module.alb.aws_lb.application_lb
 
 Uma vez acessado através do `dns_name` do Load Balancer, será possível ver na root que a resposta é `{"status":"ok"}`. Para ter acesso ao sistema CRUD é necessário acessar a rota: `dns_name/docs`.
 
+## Acesso Locust
+
+Ao executar o terraform será criada uma instância EC2 dedicada 100% a hospedagem da plataforma de Locust para teste de carga do sistema. Para ter acesso a esta plataforma é necessário ter acesso ao IP público da instância EC2 a partir deste comando:
+
+```bash
+terraform state show module.locust.aws_instance.cloud_ec2_locust
+```
+
+A partir do IP público o aplicativo Locust estará rodando na porta padrão `8089`. Sendo assim é necessário formatar o IP da seguinte maneira:
+
+```bash
+IP_LOCUST_EC2:8089
+```
+
 # Documentação Técnica
 
 O código Terraform fornecido neste repositório representa uma implementação abrangente de infraestrutura na AWS, seguindo as melhores práticas para garantir segurança, escalabilidade e resiliência. Abaixo estão os detalhes dos principais elementos implementados e as decisões técnicas tomadas.
@@ -262,3 +276,12 @@ Neste caso, a VPC está sendo usada para separar a aplicação web da rede públ
 - Número de endereços IP ativos: 5
 
 **Custo Total:** `USD 63,04/mês`. A análise detalhada está disponível [neste link](https://github.com/AntonioAEMartins/aws-terraform/blob/main/Estimativa-Precos.pdf)
+
+## Analise de Custos com Teste de Carga
+
+Como forma de validar a estimativa realidade utilizando a calculadora da AWS, foi instalado um teste de carga e configurado para ter 500 usuário ativos enviando requisições entre 1 a 5 segundos - escolhido randomicamente. Está taxa de requisição, faz com que o grupo de autoscaling seja bombardeado de requisições a uma taxa de aproximadamente 250 RPS.
+
+[locust-dashboard](locust-dashboard.png)
+
+A partir do Dashboard da AWS, foi possível perceber que este teste de carga teve custo de $XXX estando ativo apenas 5 horas resultando em um custo estimado de $/mês.
+
