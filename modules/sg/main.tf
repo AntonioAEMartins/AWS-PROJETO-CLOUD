@@ -75,3 +75,27 @@ resource "aws_security_group" "rds_sg" {
         Name = "rds_sg"
     }
 }
+
+resource "aws_security_group" "locust_sg" {
+    name = "locust_sg"
+    vpc_id = var.vpc_id
+
+    ingress {
+        from_port = 0
+        to_port = 0
+        protocol = -1
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    ingress {
+        from_port = 0
+        to_port = 0
+        protocol = -1
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    tags = {
+        Name = "locust_sg"
+    }
+  
+}
