@@ -50,7 +50,7 @@ module "rds" {
 
 module "locust" {
   source = "./locust"
-  vpc_security_group_ids = [module.sg.locust_sg_id]
+  locust_sg_id = module.sg.locust_sg_id
   subnet_id = module.vpc.cloud_public_subnet_id
   dns_name = module.alb.load_balancer_dns_name
 }
