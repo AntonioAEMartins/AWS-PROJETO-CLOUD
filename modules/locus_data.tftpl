@@ -1,0 +1,17 @@
+#!/bin/bash
+
+sudo apt-get update
+sudo apt-get install -y python3-pip python3-venv git
+
+git clone https://github.com/AntonioAEMartins/simple-locust.git
+sudo chown -R ubuntu:ubuntu simple-locust
+cd simple-locust
+
+python3 -m venv env
+source env/bin/activate
+
+pip3 install -r requirements.txt --no-cache-dir
+
+export DNS_NAME=${dns_name}
+
+locust -f locustfile.py
