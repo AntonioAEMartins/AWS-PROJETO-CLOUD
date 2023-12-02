@@ -284,6 +284,6 @@ Como forma de validar a estimativa realidade utilizando a calculadora da AWS, fo
 
 ![locust-dashboard](./locust-dashboard.png)
 
+Ao início do teste o indicador de custos da AWS indicava custo mensal de $64.96, ao final das 4 horas de teste, passou a indicar $74.58, um aumento de $9.62.
 
-A partir do Dashboard da AWS, foi possível perceber que este teste de carga teve custo de $XXX estando ativo apenas 5 horas resultando em um custo estimado de $/mês.
-
+Considerando que para calcular o custo gasto na calculadora da AWS foi considerado um *spike* de 3 horas apenas nos dias úteis da semana. O custo mensal seria de $ 144.3.
