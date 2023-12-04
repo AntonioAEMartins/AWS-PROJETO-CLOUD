@@ -7,23 +7,11 @@ resource "aws_db_subnet_group" "db_subnet" {
     }
 }
 
-data "aws_secretsmanager_secret" "cloud_credentials" {
-  name = "cloud/antonio/credentials/rds"
-}
-
-data "aws_secretsmanager_secret_version" "cloud_secrets" {
-  secret_id = data.aws_secretsmanager_secret.cloud_credentials.id
-}
-
-locals {
-  rds_credentials = jsondecode(data.aws_secretsmanager_secret_version.cloud_secrets.secret_string)
-}
-
 resource "aws_db_instance" "rds_instance" {
     engine = "mysql"
     engine_version = "8.0.31"
 
-    identifier = local.rds_credentials.dbname
+    identifier = "rds-instance"
 
     db_name = "rds"
     username = "antonio"
