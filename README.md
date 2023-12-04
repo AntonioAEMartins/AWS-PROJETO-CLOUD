@@ -98,7 +98,7 @@ Uma vez acessado através do `dns_name` do Load Balancer, será possível ver na
 
 ## Acesso Locust
 
-Ao executar o terraform será criada uma instância EC2 dedicada 100% a hospedagem da plataforma de Locust para teste de carga do sistema. Para ter acesso a esta plataforma é necessário ter acesso ao IP público da instância EC2 a partir deste comando:
+Ao executar o terraform será criada uma instância EC2 dedicada 100% a hospedagem da plataforma de Locust para teste de carga do sistema. Após a finalização do `terraform apply` caso não seja disponibilizado no terminal o `public_ip` do locust execute este comando:
 
 ```bash
 terraform state show module.locust.aws_instance.cloud_ec2_locust
