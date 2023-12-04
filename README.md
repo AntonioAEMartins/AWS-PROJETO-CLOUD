@@ -75,7 +75,9 @@ Deverá ser realizada a criação *manual* de um S3 Bucket que será utilizado p
 
 - **3° Execução de Terraform**
 
-Para executar o código Terraform, basta realizar estes comandos na pasta /modules:
+Para executar o código Terraform, basta realizar estes comandos na pasta `/modules`:
+
+!!! É IMPORTANTE ESTAR COM O TERMINAL NO DIRETORIO ./MODULES !!!
 
 ```bash
 terraform init
@@ -84,7 +86,7 @@ terraform apply
 
 - **4° URL da Aplicação**
 
-Este projeto está utilizando Load Balancer para realizar o balanceamento de conexão. Para isso é necessário ter o DNS do mesmo para acessar a aplicação via Browser. Para obter o DNS do Load Balancer execute:
+Este projeto está utilizando Load Balancer para realizar o balanceamento de conexão. Após a finalização do `terraform apply` caso não seja disponibilizado no terminal o `dns_name` do `load balancer` é executar o seguinte comando:
 
 ```bash
 terraform state show module.alb.aws_lb.application_lb
